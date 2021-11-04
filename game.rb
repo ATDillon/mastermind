@@ -14,6 +14,10 @@ class Game
     @code = code
   end
 
+  def code_input(player)
+    player.color_code
+  end
+
   def same_amount?(guess, char, index)
     if (guess.count(char) == code.count(char)) || (guess[0..index].count(char) == code[0..index].count(char))
       return true
@@ -46,9 +50,21 @@ class Game
 
   public
 
+  def play_game
+    self.code = code_input(player_two)
+
+    12.times do
+      guess = code_input(player_one)
+
+      break print 'Victory' if code_same?(guess)
+
+      print_hint(guess)
+    end
+  end
+
   def print_hint(guess)
     puts code_checker(guess).join(' ')
   end
 end
 
-Game.new(player_one: 'sally', player_two: 'jane').print_hint(['b', 'r', 'y', 'y'])
+Game.new(player_one: Player.new, player_two: Computer.new).play_game
