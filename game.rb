@@ -1,14 +1,18 @@
+require_relative 'computer'
+require_relative 'player'
+
 # Handles gameplay
 class Game
-  attr_reader :code
+  private
+
+  attr_reader :player_one, :player_two
+  attr_accessor :code
 
   def initialize(player_one:, player_two:, code: ['r', 'b', 'y', 'o'])
     @player_one = player_one
     @player_two = player_two
     @code = code
   end
-
-  private
 
   def same_amount?(guess, char, index)
     if (guess.count(char) == code.count(char)) || (guess[0..index].count(char) == code[0..index].count(char))
@@ -18,14 +22,14 @@ class Game
     false
   end
 
-  def code_same?(guess)
-    return true if guess == code
-  end
-
   def char_same?(char, index)
     return true if char == code[index]
 
     false
+  end
+
+  def code_same?(guess)
+    return true if guess == code
   end
 
   def code_checker(guess)
