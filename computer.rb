@@ -17,7 +17,7 @@ class Computer
 
   public
 
-  def code_picker(count = 4)
+  def color_code(count = 4)
     code = []
     count.times do
       code.push(color_picker)
