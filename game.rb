@@ -34,8 +34,8 @@ class Game
   end
 
   def matches(guess, char)
-    code.each_with_index.reduce(0) do |total, (item, index) |
-      total + 1 if item == char && item == guess[index]
+    code.each_with_index.reduce(0) do |total, (item, index)|
+      total += 1 if item == char && item == guess[index]
       total
     end
   end
@@ -70,11 +70,11 @@ class Game
 
   public
 
-  def play_game
-    self.code = code_input(player_two)
+  def play_game(first, second)
+    self.code = input_check(first)
 
     12.times do
-      guess = input_check(player_one)
+      guess = input_check(second)
 
       break print 'Victory' if code_same?(guess)
 
@@ -82,9 +82,23 @@ class Game
     end
   end
 
+  def create_or_solve
+    puts 'Enter 1 to solve the code or 2 to create it'
+    input = gets.chomp
+
+    raise unless %w[1 2].include?(input)
+
+    play_game(player_two, player_one) if input == '1'
+    play_game(player_one, player_two) if input == '2'
+
+  rescue RuntimeError
+    puts 'Invalid input, try again: '
+    retry
+  end 
+
   def print_hint(guess)
     puts code_checker(guess).join(' ')
   end
 end
 
-Game.new(player_one: Player.new, player_two: Computer.new).play_game
+Game.new(player_one: Player.new, player_two: Computer.new).create_or_solve
