@@ -5,17 +5,32 @@ require_relative 'player'
 class Game
   private
 
-  attr_reader :player_one, :player_two
+  attr_reader :player_one, :player_two, :colors
   attr_accessor :code
 
-  def initialize(player_one:, player_two:, code: ['r', 'b', 'y', 'o'])
+  def initialize(player_one:, player_two:, code: [], colors: %w[r b g y o p])
     @player_one = player_one
     @player_two = player_two
     @code = code
+    @colors = colors
   end
 
   def code_input(player)
     player.color_code
+  end
+
+  def input_check(player, size = 4)
+    input = code_input(player)
+    raise unless input.length == size
+    raise TypeError unless input.all? { |item| colors.include?(item) }
+
+    input
+  rescue RuntimeError
+    puts "Input size error! Make sure your guess has #{size} colors and try again:"
+    retry
+  rescue TypeError
+    puts 'One or more colors input are invalid, please try again:'
+    retry
   end
 
   def matches(guess, char)
@@ -59,7 +74,7 @@ class Game
     self.code = code_input(player_two)
 
     12.times do
-      guess = code_input(player_one)
+      guess = input_check(player_one)
 
       break print 'Victory' if code_same?(guess)
 
