@@ -18,10 +18,15 @@ class Game
     player.color_code
   end
 
-  def same_amount?(guess, char, index)
-    if (guess.count(char) == code.count(char)) || (guess[0..index].count(char) == code[0..index].count(char))
-      return true
+  def matches(guess, char)
+    code.each_with_index.reduce(0) do |total, (item, index) |
+      total + 1 if item == char && item == guess[index]
+      total
     end
+  end
+
+  def less_total?(guess, char, index)
+    return true if guess[0..index].count(char) <= (code.count(char) - matches(guess, char))
 
     false
   end
@@ -40,7 +45,7 @@ class Game
     guess.each_with_index.reduce([]) do |hint, (char, index)|
       if char_same?(char, index)
         hint.push('+')
-      elsif same_amount?(guess, char, index)
+      elsif less_total?(guess, char, index)
         hint.push('~')
       else
         hint.push('-')
