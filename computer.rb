@@ -11,6 +11,16 @@ class Computer
     @colors = %w[r b g y o p]
   end
 
+  def combos(count)
+    result = colors
+    (count - 1).times do
+      result = options.reduce([]) do |a, color|
+        a + result.map { |next_color| [color] + [next_color] }.each(&:flatten!)
+      end
+    end
+    result
+  end
+
   def color_picker
     colors[Random.rand(colors.length)]
   end
