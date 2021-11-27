@@ -25,16 +25,12 @@ class Computer
   end
 
   def color_picker
-    colors[Random.rand(colors.length)]
+    options[Random.rand(options.length)]
   end
 
   public
 
-  def color_code(count = 4)
-    code = []
-    count.times do
-      code.push(color_picker)
-    end
-    code
+  def color_code
+    color_picker
   end
 end
