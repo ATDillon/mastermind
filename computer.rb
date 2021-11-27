@@ -5,10 +5,12 @@ class Computer
   private
 
   attr_reader :colors
+  attr_accessor :guess
 
   def initialize(name: 'COM')
     @name = name
     @colors = %w[r b g y o p]
+    @guess = []
   end
 
   def combos(count)
