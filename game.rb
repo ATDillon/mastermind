@@ -5,14 +5,16 @@ require_relative 'player'
 class Game
   private
 
-  attr_reader :player_one, :player_two, :colors
+  attr_reader :player_one, :player_two, :colors, :feedback
   attr_accessor :code
 
-  def initialize(player_one:, player_two:, code: [], colors: %w[r b g y o p])
+  def initialize(player_one:, player_two:, code: [], colors: %w[r b g y o p],
+                 feedback: {right: '+', misplaced: '~', wrong: '-'})
     @player_one = player_one
     @player_two = player_two
     @code = code
     @colors = colors
+    @feedback = feedback
   end
 
   def code_input(player)
@@ -59,11 +61,11 @@ class Game
   def code_checker(guess)
     guess.each_with_index.reduce([]) do |hint, (char, index)|
       if char_same?(char, index)
-        hint.push('+')
+        hint.push(feedback[:right])
       elsif less_total?(guess, char, index)
-        hint.push('~')
+        hint.push(feedback[:misplaced])
       else
-        hint.push('-')
+        hint.push(feedback[:wrong])
       end
     end
   end
