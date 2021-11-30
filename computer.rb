@@ -24,13 +24,21 @@ class Computer
     result
   end
 
-  def color_picker
+  def any_wrong(hint); end
+
+  def bad_spot(hint); end
+
+  def correct(hint); end
+
+  def option_remover(hint); end
+
+  def option_picker
     options[Random.rand(options.length)]
   end
 
   public
 
   def color_code
-    color_picker
+    option_picker
   end
 end
