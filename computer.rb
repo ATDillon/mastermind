@@ -25,7 +25,11 @@ class Computer
     result
   end
 
-  def any_wrong(hint); end
+  def any_wrong(hint)
+    return if hint.any? { |char| char == feedback[:wrong] }
+
+    options.select { |array| array.all? { |item| guess.include?(item) } }
+  end
 
   def bad_spot(hint); end
 
@@ -34,7 +38,8 @@ class Computer
   def option_remover(hint); end
 
   def option_picker
-    options[Random.rand(options.length)]
+    self.guess = options[Random.rand(options.length)]
+    guess
   end
 
   public
