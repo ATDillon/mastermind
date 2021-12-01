@@ -50,7 +50,15 @@ class Computer
     count
   end
 
-  def correct(hint); end
+  def correct(hint)
+    result = options
+    hint.each_with_index do |item, index|
+      next unless item == feedback[:right]
+
+      result.select! { |array| array[index] == guess[index] }
+    end
+    result
+  end
 
   def option_remover(hint); end
 
