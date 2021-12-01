@@ -31,7 +31,24 @@ class Computer
     options.select { |array| array.all? { |item| guess.include?(item) } }
   end
 
-  def bad_spot(hint); end
+  def bad_spot(hint)
+    result = options
+    hint.each_with_index do |item, index|
+      next unless item == feedback[:misplaced]
+
+      result.reject! { |array| array[index] == guess[index] }
+      result.select! { |array| character_count(array, guess[index]) >= character_count(hint, item) }
+    end
+    result
+  end
+
+  def character_count(array, character)
+    count = 0
+    array.each do |color|
+      count += 1 if color == character
+    end
+    count
+  end
 
   def correct(hint); end
 
