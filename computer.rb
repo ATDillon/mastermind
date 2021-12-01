@@ -26,9 +26,19 @@ class Computer
   end
 
   def any_wrong(hint)
-    return if hint.any? { |char| char == feedback[:wrong] }
+    return incorrect(hint) if hint.any? { |char| char == feedback[:wrong] }
 
     options.select { |array| array.all? { |item| guess.include?(item) } }
+  end
+
+  def incorrect(hint)
+    result = options
+    hint.each_with_index do |item, index|
+      next unless item == feedback[:wrong]
+
+      result.reject! { |array| array[index] == guess[index] }
+    end
+    result
   end
 
   def bad_spot(hint)
