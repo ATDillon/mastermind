@@ -70,7 +70,14 @@ class Computer
     result
   end
 
-  def option_remover(hint); end
+  def option_remover(hint)
+    return if hint.nil?
+
+    self.options = any_wrong(hint)
+    self.options = bad_spot(hint)
+    self.options = correct(hint)
+    options
+  end
 
   def option_picker
     self.guess = options[Random.rand(options.length)]
@@ -79,7 +86,8 @@ class Computer
 
   public
 
-  def color_code
+  def color_code(hint = nil)
+    option_remover(hint)
     option_picker
   end
 end
