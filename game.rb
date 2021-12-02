@@ -5,34 +5,18 @@ require_relative 'player'
 class Game
   private
 
-  attr_reader :player_one, :player_two, :colors, :feedback
+  attr_reader :player_one, :player_two, :feedback
   attr_accessor :code
 
-  def initialize(player_one:, player_two:, code: [], colors: %w[r b g y o p],
-                 feedback: {right: '+', misplaced: '~', wrong: '-'})
+  def initialize(player_one:, player_two:, feedback: { right: '+', misplaced: '~', wrong: '-' })
     @player_one = player_one
     @player_two = player_two
-    @code = code
-    @colors = colors
+    @code = []
     @feedback = feedback
   end
 
   def code_input(player)
     player.color_code
-  end
-
-  def input_check(player, size = 4)
-    input = code_input(player)
-    raise unless input.length == size
-    raise TypeError unless input.all? { |item| colors.include?(item) }
-
-    input
-  rescue RuntimeError
-    puts "Input size error! Make sure your guess has #{size} colors and try again:"
-    retry
-  rescue TypeError
-    puts 'One or more colors input are invalid, please try again:'
-    retry
   end
 
   def matches(guess, char)
@@ -73,10 +57,10 @@ class Game
   public
 
   def play_game(first, second)
-    self.code = input_check(first)
+    self.code = code_input(first)
 
     12.times do
-      guess = input_check(second)
+      guess = code_input(second)
 
       break print 'Victory' if code_same?(guess)
 
@@ -92,11 +76,10 @@ class Game
 
     play_game(player_two, player_one) if input == '1'
     play_game(player_one, player_two) if input == '2'
-
   rescue RuntimeError
     puts 'Invalid input, try again: '
     retry
-  end 
+  end
 
   def print_hint(guess)
     puts code_checker(guess).join(' ')
