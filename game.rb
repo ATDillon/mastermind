@@ -6,16 +6,19 @@ class Game
   private
 
   attr_reader :player_one, :player_two, :feedback
-  attr_accessor :code
+  attr_accessor :code, :hint
 
   def initialize(player_one:, player_two:, feedback: { right: '+', misplaced: '~', wrong: '-' })
     @player_one = player_one
     @player_two = player_two
     @code = []
+    @hint = []
     @feedback = feedback
   end
 
-  def code_input(player)
+  def code_input(player, hint)
+    player.color_code(hint)
+  rescue ArgumentError
     player.color_code
   end
 
@@ -54,17 +57,22 @@ class Game
     end
   end
 
+  def create_hint(guess)
+    self.hint = code_checker(guess)
+  end
+
   public
 
   def play_game(first, second)
-    self.code = code_input(first)
+    self.code = code_input(first, hint)
 
     12.times do
-      guess = code_input(second)
+      guess = code_input(second, hint)
+      create_hint(guess)
 
       break print 'Victory' if code_same?(guess)
 
-      print_hint(guess)
+      print_hint
     end
   end
 
@@ -81,8 +89,8 @@ class Game
     retry
   end
 
-  def print_hint(guess)
-    puts code_checker(guess).join(' ')
+  def print_hint
+    puts hint.join(' ')
   end
 end
 
