@@ -47,7 +47,7 @@ class Computer
       next unless item == feedback[:misplaced]
 
       result.reject! { |array| array[index] == guess[index] }
-      result.select! { |array| character_count(array, guess[index]) >= character_count(hint, item) }
+      result.select! { |array| array.include?(guess[index]) }
     end
     result
   end
@@ -71,7 +71,7 @@ class Computer
   end
 
   def option_remover(hint)
-    return if hint.nil?
+    return if hint.empty?
 
     self.options = any_wrong(hint)
     self.options = bad_spot(hint)
@@ -86,8 +86,10 @@ class Computer
 
   public
 
-  def color_code(hint = nil)
+  def color_code(hint)
     option_remover(hint)
-    option_picker
+    guess = option_picker
+    puts guess.join(' ')
+    guess
   end
 end
