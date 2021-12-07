@@ -61,16 +61,14 @@ class Game
     self.hint = code_checker(guess)
   end
 
-  public
-
-  def play_game(first, second)
+  def gameplay(first, second)
     self.code = code_input(first, hint)
 
     12.times do
       guess = code_input(second, hint)
       create_hint(guess)
 
-      break print 'Victory' if code_same?(guess)
+      break puts "#{second.name} Victory" if code_same?(guess)
 
       print_hint
     end
@@ -82,8 +80,8 @@ class Game
 
     raise unless %w[1 2].include?(input)
 
-    play_game(player_two, player_one) if input == '1'
-    play_game(player_one, player_two) if input == '2'
+    gameplay(player_two, player_one) if input == '1'
+    gameplay(player_one, player_two) if input == '2'
   rescue RuntimeError
     puts 'Invalid input, try again: '
     retry
@@ -92,6 +90,12 @@ class Game
   def print_hint
     puts hint.join(' ')
   end
+
+  public
+
+  def play_game
+    create_or_solve
+  end
 end
 
-Game.new(player_one: Player.new, player_two: Computer.new).create_or_solve
+Game.new(player_one: Player.new, player_two: Computer.new).play_game
