@@ -84,12 +84,16 @@ class Computer
     guess
   end
 
-  public
-
-  def color_code(hint)
+  def choose_guess(hint)
     option_remover(hint)
     guess = option_picker
     puts guess.join(' ')
     guess
+  end
+
+  public
+
+  def color_code(hint)
+    choose_guess(hint)
   end
 end
