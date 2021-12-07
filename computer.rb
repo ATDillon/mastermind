@@ -86,9 +86,7 @@ class Computer
 
   def choose_guess(hint)
     option_remover(hint)
-    guess = option_picker
-    puts guess.join(' ')
-    guess
+    option_picker
   end
 
   public

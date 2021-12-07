@@ -71,6 +71,7 @@ class Game
       break puts "#{second.name} Victory" if code_same?(guess)
 
       print_hint
+      puts guess.join(' ')
     end
   end
 
