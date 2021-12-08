@@ -17,7 +17,7 @@ class Player
 
   def input_check(size = 4)
     input = player_choice
-    raise unless input.length == size
+    raise RuntimeError unless input.length == size
     raise TypeError unless input.all? { |item| colors.include?(item) }
 
     input
