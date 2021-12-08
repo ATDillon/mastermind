@@ -7,9 +7,9 @@ class Computer
   attr_reader :colors, :feedback
   attr_accessor :guess, :options
 
-  def initialize(name: 'COM', feedback: {right: '+', misplaced: '~', wrong: '-'})
+  def initialize(name: 'COM', colors: %w[r b g y o p], feedback: {right: '+', misplaced: '~', wrong: '-'})
     @name = name
-    @colors = %w[r b g y o p]
+    @colors = colors
     @guess = []
     @feedback = feedback
     @options = combos(4)
