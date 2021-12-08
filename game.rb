@@ -67,11 +67,9 @@ class Game
     12.times do
       guess = code_input(second, hint)
       create_hint(guess)
+      give_hint(guess)
 
       break puts "#{second.name} Victory" if code_same?(guess)
-
-      print_hint
-      puts guess.join(' ')
     end
   end
 
@@ -88,7 +86,8 @@ class Game
     retry
   end
 
-  def print_hint
+  def give_hint(guess)
+    puts guess.join(' ')
     puts hint.join(' ')
   end
 
